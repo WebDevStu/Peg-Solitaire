@@ -29,16 +29,16 @@ Solitaire.prototype.bindEvents = function () {
         ball.addEventListener('click', function (evt) {
             scope.click.call(scope, evt);
         }, false);
-    });
+    }, this);
 
     // reset game
-    document.getElementById('reset').addEventListener('click', function (evt) {
-        scope.reset.call(scope, evt);
+    document.getElementById('reset').addEventListener('click', function () {
+        scope.reset.call(scope);
     }, false);
 
     // enable/disable tricky mode
-    document.getElementById('tricky').addEventListener('click', function () {
-        scope.tricky.call(scope);
+    document.getElementById('tricky').addEventListener('click', function (evt) {
+        scope.tricky.call(scope, evt.currentTarget);
     }, false);
 };
 
@@ -226,12 +226,14 @@ Solitaire.prototype.reset = function () {
 /**
  * enable a tricky mode on the game
  */
-Solitaire.prototype.tricky = function () {
+Solitaire.prototype.tricky = function (button) {
 
     if (this.el.className.match(/tricky/g)) {
         this.el.className = 'game';
+        button.className = button.className.replace(/( )?on/g, '');
     } else {
         this.el.className = 'game tricky';
+        button.className = button.className + ' on';
     }
 };
 
